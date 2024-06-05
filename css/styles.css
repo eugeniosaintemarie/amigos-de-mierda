@@ -1,0 +1,78 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#app {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+button {
+    margin: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+button.reiniciar {
+    margin: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+input,
+select {
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+#botones-juego {
+    display: flex;
+    justify-content: center;
+}
+
+#botones-juego button {
+    margin: 10px;
+}
+
+@media (max-width: 600px) {
+    #app {
+        margin: 10px;
+    }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amigos De Mierda</title>
+    <link rel="shortcut icon" href="data/images/favicon.ico" type="image/ico" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="application-name" content="Amigos De Mierda" />
+    <link
+      rel="manifest"
+      href="https://eugeniosaintemarie.github.io/amigos-de-mierda/manifest.json"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Amigos De Mierda" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://eugeniosaintemarie.github.io/chinese-now/images/apple-touch-icon.png"
+    />
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="inicio">
+        <button id="cargar-personas-btn">Cargar amigos</button>
+        <button id="sin-cargar-personas-btn">Seguir sin</button>
+      </div>
+
+      <div id="cargar-personas" class="hidden">
+        <input type="text" id="persona-input" placeholder="Nombre" />
+        <button id="agregar-persona-btn">Agregar</button>
+        <ul id="lista-personas"></ul>
+        <button id="comenzar-juego-btn">Comenzar</button>
+        <button id="reiniciar-btn-juego" class="reiniciar">Reiniciar</button>
+      </div>
+
+      <div id="juego" class="hidden">
+        <p id="pregunta"></p>
+        <div id="seleccionar-persona" class="hidden">
+          <select id="personas-select">
+            <option value="" selected disabled>Elegir amigo</option>
+          </select>
+          <button id="asignar-pregunta-btn" disabled>Asignar</button>
+        </div>
+        <div id="botones-juego">
+          <button id="siguiente-pregunta-btn" class="hidden">Siguiente</button>
+          <button id="reiniciar-btn-juego" class="reiniciar">Reiniciar</button>
+        </div>
+      </div>
+      <div id="resultado" class="hidden">
+        <p id="resultado-texto"></p>
+        <button id="reiniciar-btn">Reiniciar</button>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

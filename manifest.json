@@ -1,0 +1,15 @@
+{
+    "name": "Amigos De Mierda",
+    "short_name": "Amigos De Mierda",
+    "description": "",
+    "start_url": "/amigos-de-mierda/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#000000",
+    "icons": [
+        {
+            "src": "https://eugeniosaintemarie.github.io/amigos-de-mierda/data/images/pwa-512x512.png",
+            "sizes": "512x512"
+        }
+    ]
+}
