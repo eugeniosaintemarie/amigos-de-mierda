@@ -5,7 +5,7 @@
     "start_url": "/amigos-de-mierda/",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#000000",
+    "background_color": "#ffffff",
     "icons": [
         {
             "src": "https://eugeniosaintemarie.github.io/amigos-de-mierda/data/images/pwa-512x512.png",
