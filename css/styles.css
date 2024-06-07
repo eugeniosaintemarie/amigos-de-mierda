@@ -7,6 +7,7 @@ body {
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -15,6 +16,15 @@ body {
     text-align: center;
     width: 100%;
     max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#contador-preguntas {
+    font-size: 0.75em;
+    color: grey;
 }
 
 button {
@@ -39,7 +49,7 @@ button.reiniciar {
     padding: 10px 25px;
     cursor: pointer;
     position: fixed;
-    bottom: 10px;
+    bottom: 33px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -69,6 +79,22 @@ ul {
 
 #botones-juego button {
     margin: 10px;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 0px;
+    background-color: #000000;
+    color: #ffffff;
+    position: absolute;
+    bottom: 0;
+}
+
+footer>a {
+    font-size: 0.75em;
+    color: grey;
+    text-decoration: none;
 }
 
 @media (max-width: 600px) {

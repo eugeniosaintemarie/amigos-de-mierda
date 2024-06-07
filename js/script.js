@@ -16,11 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultadoDiv = document.getElementById("resultado");
     const resultadoTextoP = document.getElementById("resultado-texto");
     const reiniciarBtn = document.getElementById("reiniciar-btn");
+    const contadorPreguntasP = document.getElementById("contador-preguntas");
+    const terminarBtn = document.getElementById("terminar-btn");
 
     let personas = [];
     let preguntas = [];
     let preguntasUsadas = [];
     let personasPreguntas = {};
+    let totalPreguntas = 0;
 
     function cargarDatosGuardados() {
         const personasGuardadas = localStorage.getItem('amigos');
@@ -53,12 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarPersonasBtn.addEventListener("click", () => {
         document.getElementById("inicio").classList.add("hidden");
         cargarPersonasDiv.classList.remove("hidden");
+        reiniciarBtnJuego.forEach(btn => {
+            btn.classList.add("hidden");
+        });
     });
 
     sinCargarPersonasBtn.addEventListener("click", () => {
         document.getElementById("inicio").classList.add("hidden");
         comenzarJuego(false);
         guardarDatos();
+        const terminarBtnJuego = document.getElementById("terminar-btn");
+        terminarBtnJuego.classList.add("hidden");
     });
 
     agregarPersonaBtn.addEventListener("click", () => {
@@ -78,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     personasSelect.addEventListener("change", () => {
         asignarPreguntaBtn.disabled = !personasSelect.value;
     });
@@ -97,8 +104,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.text())
             .then(text => {
                 preguntas = text.split("\n").map(pregunta => pregunta.trim()).filter(pregunta => pregunta);
+                totalPreguntas = preguntas.length;
                 mostrarSiguientePregunta(conPersonas);
             });
+    }
+
+    function actualizarContador() {
+        const preguntasRestantes = totalPreguntas - preguntas.length;
+        contadorPreguntasP.textContent = `${preguntasRestantes}/${totalPreguntas}`;
     }
 
     function mostrarSiguientePregunta(conPersonas) {
@@ -112,14 +125,18 @@ document.addEventListener("DOMContentLoaded", () => {
         preguntasUsadas.push(pregunta);
 
         preguntaP.textContent = pregunta;
+        actualizarContador();
+
         if (conPersonas) {
             personasSelect.value = "";
             asignarPreguntaBtn.disabled = true;
             seleccionarPersonaDiv.classList.remove("hidden");
             siguientePreguntaBtn.classList.add("hidden");
+            terminarBtn.classList.remove("hidden");
         } else {
             seleccionarPersonaDiv.classList.add("hidden");
             siguientePreguntaBtn.classList.remove("hidden");
+            terminarBtn.classList.remove("hidden");
         }
 
         juegoDiv.classList.remove("hidden");
@@ -145,15 +162,45 @@ document.addEventListener("DOMContentLoaded", () => {
         location.reload();
     });
 
+    terminarBtn.addEventListener("click", () => {
+        terminarJuego(personas.length > 0);
+    });
+
     function terminarJuego(conPersonas) {
         juegoDiv.classList.add("hidden");
         if (conPersonas) {
-            const maxPreguntas = Math.max(...Object.values(personasPreguntas));
-            const personaMasPreguntas = Object.keys(personasPreguntas).filter(persona => personasPreguntas[persona] === maxPreguntas);
-            resultadoTextoP.textContent = `La(s) persona(s) con más preguntas asignadas fueron: ${personaMasPreguntas.join(", ")}`;
+            const personasOrdenadas = Object.keys(personasPreguntas).sort((a, b) => personasPreguntas[b] - personasPreguntas[a]);
+            const personasConPuntos = personasOrdenadas.map(persona => `${persona} [${personasPreguntas[persona]}]`);
+            resultadoTextoP.innerHTML = `Resultado:<br>${personasConPuntos.join("<br>")}`;
         } else {
             resultadoTextoP.textContent = "No hay más preguntas";
         }
         resultadoDiv.classList.remove("hidden");
     }
+
+    function actualYear() {
+        document.getElementById("actualYear").innerHTML = new Date().getFullYear();
+    }
+
+    actualYear();
+
+    function asyncLoadScript(url, callback) {
+        var d = document,
+            t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = url;
+        if (callback) {
+            o.addEventListener('load', function (e) {
+                callback(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+
+    // asyncLoadScript('url_del_script.js', (err, event) => {
+    //     if (!err) {
+    //         console.log('Script cargado correctamente');
+    //     }
+    // });
 });

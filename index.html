@@ -30,32 +30,39 @@
       </div>
 
       <div id="cargar-personas" class="hidden">
-        <input type="text" id="persona-input" placeholder="Nombre" />
-        <button id="agregar-persona-btn">Agregar</button>
         <ul id="lista-personas"></ul>
+        <input type="text" id="persona-input" placeholder="Nombre" />
+        <br>
+        <button id="agregar-persona-btn">Agregar</button>
         <button id="comenzar-juego-btn">Comenzar</button>
         <button id="reiniciar-btn-juego" class="reiniciar">Reiniciar</button>
       </div>
 
       <div id="juego" class="hidden">
+        <p id="contador-preguntas"></p>
         <p id="pregunta"></p>
         <div id="seleccionar-persona" class="hidden">
           <select id="personas-select">
             <option value="" selected disabled>Elegir amigo</option>
           </select>
           <button id="asignar-pregunta-btn" disabled>Asignar</button>
+          <br><br><br><br><br><br><br><br><br><br>
         </div>
         <div id="botones-juego">
           <button id="siguiente-pregunta-btn" class="hidden">Siguiente</button>
+          <button id="terminar-btn" class="hidden">Terminar</button>
           <button id="reiniciar-btn-juego" class="reiniciar">Reiniciar</button>
         </div>
       </div>
       <div id="resultado" class="hidden">
         <p id="resultado-texto"></p>
-        <button id="reiniciar-btn">Reiniciar</button>
+        <br><br><br><br><br><br><br><br><br><br>
+        <button id="reiniciar-btn">Inicio</button>
       </div>
     </div>
-
+    <footer>
+      <a href="https://eugeniosaintemarie.github.io" target="_blank">∃ © <span id="actualYear"></span></p>
+    </footer>
     <script src="js/script.js"></script>
   </body>
 </html>
