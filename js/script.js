@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const reiniciarBtn = document.getElementById("reiniciar-btn");
     const contadorPreguntasP = document.getElementById("contador-preguntas");
     const terminarBtn = document.getElementById("terminar-btn");
+    const inicioDiv = document.getElementById("inicio");
 
     let personas = [];
     let preguntas = [];
@@ -73,8 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const juegoActivoGuardado = localStorage.getItem('juegoActivo');
         if (juegoActivoGuardado === "true") {
             juegoDiv.classList.remove("hidden");
-            seleccionarPersonaDiv.classList.remove("hidden");
-            terminarBtn.classList.remove("hidden");
+            if (personas.length > 0) {
+                seleccionarPersonaDiv.classList.remove("hidden");
+                terminarBtn.classList.remove("hidden");
+            } else {
+                siguientePreguntaBtn.classList.remove("hidden");
+            }
+            inicioDiv.classList.add("hidden");
+            cargarPersonasDiv.classList.add("hidden");
         }
     }
 
@@ -92,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarDatosGuardados();
 
     cargarPersonasBtn.addEventListener("click", () => {
-        document.getElementById("inicio").classList.add("hidden");
+        inicioDiv.classList.add("hidden");
         cargarPersonasDiv.classList.remove("hidden");
         reiniciarBtnJuego.forEach(btn => {
             btn.classList.add("hidden");
@@ -100,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     sinCargarPersonasBtn.addEventListener("click", () => {
-        document.getElementById("inicio").classList.add("hidden");
+        inicioDiv.classList.add("hidden");
         comenzarJuego(false);
         guardarDatos();
     });
