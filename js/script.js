@@ -65,8 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("inicio").classList.add("hidden");
         comenzarJuego(false);
         guardarDatos();
-        const terminarBtnJuego = document.getElementById("terminar-btn");
-        terminarBtnJuego.classList.add("hidden");
     });
 
     agregarPersonaBtn.addEventListener("click", () => {
@@ -136,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             seleccionarPersonaDiv.classList.add("hidden");
             siguientePreguntaBtn.classList.remove("hidden");
-            terminarBtn.classList.remove("hidden");
+            terminarBtn.classList.add("hidden");
         }
 
         juegoDiv.classList.remove("hidden");
