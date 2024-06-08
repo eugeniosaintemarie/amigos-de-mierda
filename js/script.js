@@ -44,14 +44,52 @@ document.addEventListener("DOMContentLoaded", () => {
         if (asignacionesGuardadas) {
             personasPreguntas = JSON.parse(asignacionesGuardadas);
         }
+
+        const preguntasUsadasGuardadas = localStorage.getItem('preguntasUsadas');
+        if (preguntasUsadasGuardadas) {
+            preguntasUsadas = JSON.parse(preguntasUsadasGuardadas);
+        }
+
+        const preguntasRestantesGuardadas = localStorage.getItem('preguntasRestantes');
+        if (preguntasRestantesGuardadas) {
+            preguntas = JSON.parse(preguntasRestantesGuardadas);
+        }
+
+        const totalPreguntasGuardadas = localStorage.getItem('totalPreguntas');
+        if (totalPreguntasGuardadas) {
+            totalPreguntas = JSON.parse(totalPreguntasGuardadas);
+        }
+
+        const preguntaActualGuardada = localStorage.getItem('preguntaActual');
+        if (preguntaActualGuardada) {
+            preguntaP.textContent = preguntaActualGuardada;
+        }
+
+        const contadorPreguntasGuardado = localStorage.getItem('contadorPreguntas');
+        if (contadorPreguntasGuardado) {
+            contadorPreguntasP.textContent = contadorPreguntasGuardado;
+        }
+
+        const juegoActivoGuardado = localStorage.getItem('juegoActivo');
+        if (juegoActivoGuardado === "true") {
+            juegoDiv.classList.remove("hidden");
+            seleccionarPersonaDiv.classList.remove("hidden");
+            terminarBtn.classList.remove("hidden");
+        }
     }
 
     function guardarDatos() {
         localStorage.setItem('amigos', JSON.stringify(personas));
         localStorage.setItem('asignaciones', JSON.stringify(personasPreguntas));
+        localStorage.setItem('preguntasUsadas', JSON.stringify(preguntasUsadas));
+        localStorage.setItem('preguntasRestantes', JSON.stringify(preguntas));
+        localStorage.setItem('totalPreguntas', JSON.stringify(totalPreguntas));
+        localStorage.setItem('preguntaActual', preguntaP.textContent);
+        localStorage.setItem('contadorPreguntas', contadorPreguntasP.textContent);
+        localStorage.setItem('juegoActivo', juegoDiv.classList.contains('hidden') ? "false" : "true");
     }
 
-    document.addEventListener('DOMContentLoaded', cargarDatosGuardados);
+    cargarDatosGuardados();
 
     cargarPersonasBtn.addEventListener("click", () => {
         document.getElementById("inicio").classList.add("hidden");
@@ -101,8 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("data/preguntas.txt")
             .then(response => response.text())
             .then(text => {
-                preguntas = text.split("\n").map(pregunta => pregunta.trim()).filter(pregunta => pregunta);
-                totalPreguntas = preguntas.length;
+                if (preguntas.length === 0) {
+                    preguntas = text.split("\n").map(pregunta => pregunta.trim()).filter(pregunta => pregunta);
+                    totalPreguntas = preguntas.length;
+                }
                 mostrarSiguientePregunta(conPersonas);
             });
     }
@@ -124,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         preguntaP.textContent = pregunta;
         actualizarContador();
+        guardarDatos();
 
         if (conPersonas) {
             personasSelect.value = "";
@@ -174,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
             resultadoTextoP.textContent = "No hay más preguntas";
         }
         resultadoDiv.classList.remove("hidden");
+        localStorage.clear();
     }
 
     function actualYear() {
