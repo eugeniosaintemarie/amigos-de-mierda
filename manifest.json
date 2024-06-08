@@ -1,11 +1,12 @@
 {
     "name": "Amigos De Mierda",
     "short_name": "Amigos De Mierda",
-    "description": "",
+    "description": "Amigos De Mierda",
     "start_url": "/amigos-de-mierda/",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#ffffff",
+    "theme_color": "#000000",
     "icons": [
         {
             "src": "https://eugeniosaintemarie.github.io/amigos-de-mierda/images/android-chrome-192x192.png",
