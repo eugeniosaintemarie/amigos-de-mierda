@@ -186,11 +186,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     reiniciarBtnJuego.forEach(btn => {
         btn.addEventListener("click", () => {
+            // Al reiniciar, limpiamos el localStorage como hace el botón terminar
+            localStorage.removeItem('estadoJuego');
             location.reload();
         });
     });
 
     reiniciarBtn.addEventListener("click", () => {
+        // También limpiamos localStorage aquí para consistencia
+        localStorage.removeItem('estadoJuego');
         location.reload();
     });
 
