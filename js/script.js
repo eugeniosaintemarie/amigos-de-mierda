@@ -26,9 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalPreguntas = 0;
 
     function cargarDatosGuardados() {
-        const personasGuardadas = localStorage.getItem('amigos');
-        if (personasGuardadas) {
-            personas = JSON.parse(personasGuardadas);
+        const estadoJuego = localStorage.getItem('estadoJuego');
+        if (estadoJuego) {
+            const estado = JSON.parse(estadoJuego);
+            personas = estado.personas || [];
+            preguntas = estado.preguntas || [];
+            preguntasUsadas = estado.preguntasUsadas || [];
+            personasPreguntas = estado.personasPreguntas || {};
+            totalPreguntas = estado.totalPreguntas || 0;
+
+            // Restaurar la interfaz de usuario
             personas.forEach(persona => {
                 const li = document.createElement("li");
                 li.textContent = persona;
@@ -38,20 +45,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.textContent = persona;
                 personasSelect.appendChild(option);
             });
-        }
 
-        const asignacionesGuardadas = localStorage.getItem('asignaciones');
-        if (asignacionesGuardadas) {
-            personasPreguntas = JSON.parse(asignacionesGuardadas);
+            // Restaurar el estado visual del juego
+            if (preguntas.length > 0 || preguntasUsadas.length > 0) {
+                document.getElementById("inicio").classList.add("hidden");
+                juegoDiv.classList.remove("hidden");
+                if (personas.length > 0) {
+                    seleccionarPersonaDiv.classList.remove("hidden");
+                    siguientePreguntaBtn.classList.add("hidden");
+                } else {
+                    seleccionarPersonaDiv.classList.add("hidden");
+                    siguientePreguntaBtn.classList.remove("hidden");
+                }
+                if (preguntasUsadas.length > 0) {
+                    preguntaP.textContent = preguntasUsadas[preguntasUsadas.length - 1];
+                }
+                actualizarContador();
+            }
         }
     }
 
     function guardarDatos() {
-        localStorage.setItem('amigos', JSON.stringify(personas));
-        localStorage.setItem('asignaciones', JSON.stringify(personasPreguntas));
+        const estadoJuego = {
+            personas,
+            preguntas,
+            preguntasUsadas,
+            personasPreguntas,
+            totalPreguntas
+        };
+        localStorage.setItem('estadoJuego', JSON.stringify(estadoJuego));
     }
 
-    document.addEventListener('DOMContentLoaded', cargarDatosGuardados);
+    // Ya estamos dentro de un evento DOMContentLoaded, no necesitamos otro
+    // Llamamos directamente a la función
+    cargarDatosGuardados();
 
     cargarPersonasBtn.addEventListener("click", () => {
         document.getElementById("inicio").classList.add("hidden");
@@ -98,13 +125,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function comenzarJuego(conPersonas) {
-        fetch("data/preguntas.txt")
-            .then(response => response.text())
-            .then(text => {
-                preguntas = text.split("\n").map(pregunta => pregunta.trim()).filter(pregunta => pregunta);
-                totalPreguntas = preguntas.length;
-                mostrarSiguientePregunta(conPersonas);
-            });
+        if (preguntas.length === 0) {
+            fetch("data/preguntas.txt")
+                .then(response => response.text())
+                .then(text => {
+                    preguntas = text.split("\n").map(pregunta => pregunta.trim()).filter(pregunta => pregunta);
+                    totalPreguntas = preguntas.length;
+                    mostrarSiguientePregunta(conPersonas);
+                    guardarDatos();
+                });
+        } else {
+            mostrarSiguientePregunta(conPersonas);
+        }
     }
 
     function actualizarContador() {
@@ -124,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         preguntaP.textContent = pregunta;
         actualizarContador();
+        guardarDatos();
 
         if (conPersonas) {
             personasSelect.value = "";
@@ -143,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     asignarPreguntaBtn.addEventListener("click", () => {
         const persona = personasSelect.value;
         personasPreguntas[persona]++;
+        guardarDatos();
         mostrarSiguientePregunta(true);
     });
 
@@ -162,8 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     terminarBtn.addEventListener("click", () => {
         // Al terminar intencionalmente, limpiamos el localStorage
-        localStorage.removeItem('amigos');
-        localStorage.removeItem('asignaciones');
+        localStorage.removeItem('estadoJuego');
         terminarJuego(personas.length > 0);
     });
 
