@@ -161,6 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     terminarBtn.addEventListener("click", () => {
+        // Al terminar intencionalmente, limpiamos el localStorage
+        localStorage.removeItem('amigos');
+        localStorage.removeItem('asignaciones');
         terminarJuego(personas.length > 0);
     });
 
