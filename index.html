@@ -63,8 +63,27 @@
       </div>
     </div>
     <footer>
-      <a href="https://eugeniosaintemarie.github.io" target="_blank">∃ugenio © <span id="actualYear"></span></p>
+      <a data-repo="." href="#" target="_blank">∃ugenio © <span id="actualYear"></span></a>
     </footer>
     <script src="js/script.js"></script>
+    <script>
+      (() => {
+        const siteBaseURL = "https://eugeniosaintemarie.github.io".replace(/\/$/, "");
+        const buildRepoURL = (repoName, query = "") => {
+          const url = new URL(`${repoName}/`, `${siteBaseURL}/`);
+          if (query) {
+            url.search = query.startsWith("?") ? query : `?${query}`;
+          }
+          return url.toString();
+        };
+        document.querySelectorAll("[data-repo]").forEach((link) => {
+          const repoName = link.dataset.repo;
+          if (!repoName) {
+            return;
+          }
+          link.href = buildRepoURL(repoName, link.dataset.query || "");
+        });
+      })();
+    </script>
   </body>
 </html>
